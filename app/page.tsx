@@ -1,6 +1,19 @@
 import Link from "next/link"
 import { ArrowRight, Github, Linkedin, Mail, Zap, Cpu, Smartphone, Shield, Code2, Lightbulb } from "lucide-react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog"
+import { useToast } from "@/hooks/use-toast"
 import { ContactForm } from "@/components/contact-form"
 import { CreativeHero } from "@/components/creative-hero"
 import { FloatingNav } from "@/components/floating-nav"
@@ -11,6 +24,42 @@ import { GlassmorphicCard } from "@/components/glassmorphic-card"
 import { ServiceCard } from "@/components/service-card"
 
 export default function SAMNETPortal() {
+  const { toast } = useToast()
+  const [isRequestOpen, setIsRequestOpen] = useState(false)
+  const [selectedService, setSelectedService] = useState<string | null>(null)
+
+  const [requestForm, setRequestForm] = useState({
+    name: "",
+    email: "",
+    company: "",
+    phone: "",
+    details: "",
+  })
+
+  const openServiceRequest = (service: string) => {
+    setSelectedService(service)
+    setIsRequestOpen(true)
+  }
+
+  const submitServiceRequest = () => {
+    if (!requestForm.name || !requestForm.email) {
+      toast({ title: "Please fill name and email" })
+      return
+    }
+
+    const saved = localStorage.getItem("samnet_service_requests")
+    const arr = saved ? JSON.parse(saved) : []
+    arr.push({
+      id: `req-${Date.now()}`,
+      service: selectedService,
+      ...requestForm,
+      createdAt: new Date().toISOString(),
+    })
+    localStorage.setItem("samnet_service_requests", JSON.stringify(arr))
+    toast({ title: "Request submitted", description: "We will reach out to you soon." })
+    setIsRequestOpen(false)
+    setRequestForm({ name: "", email: "", company: "", phone: "", details: "" })
+  }
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950 to-slate-900 text-white overflow-hidden">
       <MouseFollower />
@@ -97,35 +146,89 @@ export default function SAMNETPortal() {
               icon={<Code2 className="h-6 w-6" />}
               title="Software Development"
               description="Custom web and mobile applications built with cutting-edge technologies and best practices."
+              onBook={() => openServiceRequest("Software Development")}
             />
             <ServiceCard
               icon={<Cpu className="h-6 w-6" />}
               title="IoT & Smart Systems"
               description="Industrial hardware and IoT solutions for home automation, wearables, and smart device integration."
+              onBook={() => openServiceRequest("IoT & Smart Systems")}
             />
             <ServiceCard
               icon={<Smartphone className="h-6 w-6" />}
               title="Smart Gadgets"
               description="Innovative consumer electronics and wearable technology designed for modern lifestyles."
+              onBook={() => openServiceRequest("Smart Gadgets")}
             />
             <ServiceCard
               icon={<Zap className="h-6 w-6" />}
               title="Manufacturing"
               description="Advanced manufacturing of industrial hardware and consumer electronics with quality assurance."
+              onBook={() => openServiceRequest("Manufacturing")}
             />
             <ServiceCard
               icon={<Shield className="h-6 w-6" />}
               title="Security & CCTV"
               description="Enterprise-grade security technology and surveillance solutions for maximum protection."
+              onBook={() => openServiceRequest("Security & CCTV")}
             />
             <ServiceCard
               icon={<Lightbulb className="h-6 w-6" />}
               title="Digital Innovation"
               description="End-to-end digital transformation consulting and implementation services."
+              onBook={() => openServiceRequest("Digital Innovation")}
             />
           </div>
         </div>
       </section>
+
+      {/* Service Request Dialog */}
+      <Dialog open={isRequestOpen} onOpenChange={setIsRequestOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Request Service{selectedService ? ` — ${selectedService}` : ""}</DialogTitle>
+            <DialogDescription>Fill in your details and we'll get back to you.</DialogDescription>
+          </DialogHeader>
+
+          <div className="grid gap-3">
+            <Input
+              placeholder="Your Name"
+              value={requestForm.name}
+              onChange={(e) => setRequestForm({ ...requestForm, name: e.target.value })}
+            />
+            <Input
+              placeholder="Email"
+              value={requestForm.email}
+              onChange={(e) => setRequestForm({ ...requestForm, email: e.target.value })}
+            />
+            <Input
+              placeholder="Company (optional)"
+              value={requestForm.company}
+              onChange={(e) => setRequestForm({ ...requestForm, company: e.target.value })}
+            />
+            <Input
+              placeholder="Phone (optional)"
+              value={requestForm.phone}
+              onChange={(e) => setRequestForm({ ...requestForm, phone: e.target.value })}
+            />
+            <Textarea
+              placeholder="Describe your request"
+              value={requestForm.details}
+              onChange={(e) => setRequestForm({ ...requestForm, details: e.target.value })}
+              rows={4}
+            />
+          </div>
+
+          <DialogFooter>
+            <DialogClose>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <Button onClick={submitServiceRequest} className="bg-gradient-to-r from-blue-500 to-cyan-500">
+              Submit Request
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Training Hub Section */}
       <section id="training" className="py-32 relative">
