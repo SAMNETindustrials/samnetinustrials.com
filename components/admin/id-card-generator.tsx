@@ -98,6 +98,9 @@ export function IdCardGenerator() {
       phone: formData.phone || "",
       passportPhoto: undefined,
       signature: undefined,
+      joiningDate: "",
+      createdAt: "",
+      updatedAt: ""
     }
 
     const updated = [...staffList, newStaff]

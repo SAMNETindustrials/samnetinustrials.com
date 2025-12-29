@@ -10,18 +10,27 @@ export function HeroAnimation() {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const ctx = canvas.getContext("2d")
-    if (!ctx) return
+    const rawCtx = canvas.getContext("2d")
+    if (!rawCtx) return
+    const ctx = rawCtx as CanvasRenderingContext2D
 
-    // Set canvas dimensions
+    // Retina scaling and dimensions
+    let devicePixelRatio = window.devicePixelRatio || 1
+    let width = 0
+    let height = 0
+
     const setCanvasDimensions = () => {
-      const devicePixelRatio = window.devicePixelRatio || 1
+      devicePixelRatio = window.devicePixelRatio || 1
       const rect = canvas.getBoundingClientRect()
 
-      canvas.width = rect.width * devicePixelRatio
-      canvas.height = rect.height * devicePixelRatio
+      width = rect.width
+      height = rect.height
 
-      ctx.scale(devicePixelRatio, devicePixelRatio)
+      canvas.width = Math.max(1, Math.floor(width * devicePixelRatio))
+      canvas.height = Math.max(1, Math.floor(height * devicePixelRatio))
+
+      // Set transform to map drawing coordinates to CSS pixels directly
+      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0)
     }
 
     setCanvasDimensions()
@@ -37,8 +46,8 @@ export function HeroAnimation() {
       color: string
 
       constructor() {
-        this.x = (Math.random() * canvas.width) / devicePixelRatio
-        this.y = (Math.random() * canvas.height) / devicePixelRatio
+        this.x = Math.random() * width
+        this.y = Math.random() * height
         this.size = Math.random() * 5 + 1
         this.speedX = Math.random() * 2 - 1
         this.speedY = Math.random() * 2 - 1
@@ -49,11 +58,11 @@ export function HeroAnimation() {
         this.x += this.speedX
         this.y += this.speedY
 
-        if (this.x > canvas.width / devicePixelRatio || this.x < 0) {
+        if (this.x > width || this.x < 0) {
           this.speedX = -this.speedX
         }
 
-        if (this.y > canvas.height / devicePixelRatio || this.y < 0) {
+        if (this.y > height || this.y < 0) {
           this.speedY = -this.speedY
         }
       }
@@ -75,15 +84,17 @@ export function HeroAnimation() {
     }
 
     // Animation loop
+    let animationFrameId: number | null = null
+
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.clearRect(0, 0, width, height)
 
       // Draw connections
       ctx.strokeStyle = "rgba(120, 180, 255, 0.1)"
       ctx.lineWidth = 1
 
       for (let i = 0; i < particlesArray.length; i++) {
-        for (let j = i; j < particlesArray.length; j++) {
+        for (let j = i + 1; j < particlesArray.length; j++) {
           const dx = particlesArray[i].x - particlesArray[j].x
           const dy = particlesArray[i].y - particlesArray[j].y
           const distance = Math.sqrt(dx * dx + dy * dy)
@@ -103,13 +114,14 @@ export function HeroAnimation() {
         particlesArray[i].draw()
       }
 
-      requestAnimationFrame(animate)
+      animationFrameId = requestAnimationFrame(animate)
     }
 
     animate()
 
     return () => {
       window.removeEventListener("resize", setCanvasDimensions)
+      if (animationFrameId) cancelAnimationFrame(animationFrameId)
     }
   }, [])
 
