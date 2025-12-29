@@ -123,8 +123,12 @@ export function HomepageChatbot() {
             {/* Header */}
             <div className="bg-gradient-to-r from-blue-600 to-cyan-600 px-6 py-4 flex items-center justify-between flex-shrink-0">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                  <MessageCircle className="h-5 w-5 text-white" />
+                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center overflow-hidden">
+                  <img
+                    src="/images/samnetlogo1-removebg-preview.png"
+                    alt="SAMNET"
+                    className="h-5 w-5 object-cover"
+                  />
                 </div>
                 <div>
                   <h3 className="font-semibold text-white text-sm">SAMNET Assistant</h3>
