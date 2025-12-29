@@ -6,7 +6,7 @@ import type { Staff } from "./staff-management"
 import { Card } from "@/components/ui/card"
 
 interface StaffIDCardProps {
-  staff: Staff
+  staff: Staff | Partial<Staff>
 }
 
 export function StaffIDCard({ staff }: StaffIDCardProps) {
@@ -18,9 +18,9 @@ export function StaffIDCard({ staff }: StaffIDCardProps) {
       QRCode.toCanvas(
         canvasRef.current,
         JSON.stringify({
-          id: staff.id,
-          name: staff.name,
-          email: staff.email,
+          id: staff.id ?? "",
+          name: staff.name ?? "",
+          email: staff.email ?? "",
         }),
         {
           width: 120,
@@ -96,7 +96,9 @@ export function StaffIDCard({ staff }: StaffIDCardProps) {
               </div>
               <div>
                 <p className="opacity-75">Joining Date</p>
-                <p className="text-sm">{new Date(staff.joiningDate).toLocaleDateString()}</p>
+                <p className="text-sm">
+                  {staff.joiningDate ? new Date(String(staff.joiningDate)).toLocaleDateString() : "N/A"}
+                </p>
               </div>
             </div>
           </div>
