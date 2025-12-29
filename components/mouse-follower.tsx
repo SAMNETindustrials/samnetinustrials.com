@@ -151,13 +151,15 @@ export function MouseFollower() {
     <>
       {/* Rotating Mouse Follower Circle */}
       <motion.div
-        className={`fixed top-0 left-0 w-8 h-8 rounded-full z-50 mix-blend-screen transition-cursor ${
-          isOverClickable ? "pointer-events-none" : "pointer-events-auto cursor-pointer"
-        }`}
+        className={`fixed top-0 left-0 w-8 h-8 rounded-full ${
+          isOverClickable
+            ? "pointer-events-none z-10 opacity-20"
+            : "pointer-events-auto z-50 opacity-100 cursor-pointer"
+        } mix-blend-screen transition-all duration-200`}
         animate={{
           x: mousePosition.x - 16,
           y: mousePosition.y - 16,
-          opacity: isVisible ? 1 : 0,
+          opacity: isVisible ? (isOverClickable ? 0.2 : 1) : 0,
           rotate: rotation,
         }}
         transition={{ type: "spring", damping: 20, stiffness: 300, mass: 0.5 }}
@@ -170,13 +172,13 @@ export function MouseFollower() {
         <div className="w-full h-full rounded-full"></div>
       </motion.div>
 
-      {/* Inner dot */}
+      {/* Inner dot - also respects clickable state */}
       <motion.div
         className="fixed top-0 left-0 w-2 h-2 rounded-full bg-cyan-400 pointer-events-none z-50"
         animate={{
           x: mousePosition.x - 1,
           y: mousePosition.y - 1,
-          opacity: isVisible ? 1 : 0,
+          opacity: isVisible ? (isOverClickable ? 0.1 : 1) : 0,
         }}
         style={{
           boxShadow: "0 0 8px rgba(0, 200, 255, 0.8)",
@@ -199,9 +201,20 @@ export function MouseFollower() {
               {/* Header */}
               <div className="bg-gradient-to-r from-blue-600 to-cyan-600 px-6 py-4 flex items-center justify-between flex-shrink-0">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                    <div className="w-2 h-2 rounded-full bg-white animate-pulse"></div>
-                  </div>
+                  <style>{`
+                    @keyframes blink {
+                      0%, 49%, 100% { opacity: 1; }
+                      50%, 99% { opacity: 0.3; }
+                    }
+                    .logo-blink {
+                      animation: blink 1.5s infinite;
+                    }
+                  `}</style>
+                  <img
+                    src="/images/samnetlogo1-removebg-preview.png"
+                    alt="SAMNET Logo"
+                    className="w-8 h-8 logo-blink"
+                  />
                   <div>
                     <h3 className="font-semibold text-white text-sm">SAMNET Assistant</h3>
                     <p className="text-xs text-blue-100">Always here to help</p>

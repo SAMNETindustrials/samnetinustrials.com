@@ -1,17 +1,16 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { TaskForm } from "./task-form"
-import { TaskList } from "./task-list"
 import { TaskDetail } from "./task-detail"
+import { Plus, Search, MessageSquare, Paperclip } from "lucide-react"
 
 export interface Task {
   id: string
   title: string
   description: string
   assignedTo: string
+  department: string
   status: "pending" | "in-progress" | "completed"
   priority: "low" | "medium" | "high"
   dueDate: string
@@ -32,11 +31,35 @@ export interface Task {
   updatedAt: string
 }
 
+const DEPARTMENTS = [
+  "All Tasks",
+  "Management",
+  "Operations",
+  "Training",
+  "Infrastructure",
+  "Finance",
+  "HR",
+  "Marketing",
+  "Customer Service",
+]
+
+const DEPARTMENT_COLORS: Record<string, { bg: string; text: string; border: string }> = {
+  Management: { bg: "#EBF8FF", text: "#0284C7", border: "#0284C7" },
+  Operations: { bg: "#FEE2E2", text: "#DC2626", border: "#DC2626" },
+  Training: { bg: "#F0FDF4", text: "#16A34A", border: "#16A34A" },
+  Infrastructure: { bg: "#FEF3C7", text: "#D97706", border: "#D97706" },
+  Finance: { bg: "#F3E8FF", text: "#7C3AED", border: "#7C3AED" },
+  HR: { bg: "#FCE7F3", text: "#DB2777", border: "#DB2777" },
+  Marketing: { bg: "#E0E7FF", text: "#4F46E5", border: "#4F46E5" },
+  "Customer Service": { bg: "#F5F3FF", text: "#6D28D9", border: "#6D28D9" },
+}
+
 export function TaskManagement() {
   const [tasks, setTasks] = useState<Task[]>([])
   const [showForm, setShowForm] = useState(false)
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
-  const [filter, setFilter] = useState<"all" | "pending" | "in-progress" | "completed">("all")
+  const [selectedDepartment, setSelectedDepartment] = useState("All Tasks")
+  const [searchQuery, setSearchQuery] = useState("")
 
   useEffect(() => {
     const savedTasks = localStorage.getItem("samnet_tasks")
@@ -74,61 +97,151 @@ export function TaskManagement() {
     setSelectedTask(null)
   }
 
-  const filteredTasks = filter === "all" ? tasks : tasks.filter((t) => t.status === filter)
+  const filteredTasks = tasks.filter((task) => {
+    const matchesDept = selectedDepartment === "All Tasks" || task.department === selectedDepartment
+    const matchesSearch =
+      task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      task.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      task.assignedTo.toLowerCase().includes(searchQuery.toLowerCase())
+    return matchesDept && matchesSearch
+  })
+
+  const getDepartmentCount = (dept: string) => {
+    if (dept === "All Tasks") return tasks.length
+    return tasks.filter((t) => t.department === dept).length
+  }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-foreground">Task Management</h2>
-          <p className="text-muted-foreground mt-1">Create, assign, and track staff tasks</p>
-        </div>
-        <Button onClick={() => setShowForm(true)}>+ New Task</Button>
-      </div>
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-screen bg-slate-50">
+      <aside className="lg:col-span-1">
+        <div className="bg-white rounded-lg shadow-lg p-6 sticky top-20">
+          <div className="space-y-2">
+            {DEPARTMENTS.map((dept) => (
+              <button
+                key={dept}
+                onClick={() => {
+                  setSelectedDepartment(dept)
+                  setSelectedTask(null)
+                }}
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-lg font-medium text-sm transition-all ${
+                  selectedDepartment === dept
+                    ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                <span>{dept}</span>
+                <span
+                  className={`px-2 py-1 rounded-full text-xs font-bold ${
+                    selectedDepartment === dept ? "bg-white/30 text-white" : "bg-gray-200 text-gray-700"
+                  }`}
+                >
+                  {getDepartmentCount(dept)}
+                </span>
+              </button>
+            ))}
+          </div>
 
-      {/* Filter Tabs */}
-      <div className="flex gap-2">
-        {["all", "pending", "in-progress", "completed"].map((status) => (
           <button
-            key={status}
-            onClick={() => setFilter(status as any)}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              filter === status ? "bg-primary text-white" : "bg-secondary text-foreground hover:bg-secondary/80"
-            }`}
+            onClick={() => setShowForm(true)}
+            className="w-full mt-6 flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-medium hover:shadow-lg transition-all"
           >
-            {status.charAt(0).toUpperCase() + status.slice(1)} ({filteredTasks.length})
+            <Plus size={18} />
+            New Task
           </button>
-        ))}
-      </div>
-
-      {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Task List */}
-        <div className="lg:col-span-1">
-          <TaskList tasks={filteredTasks} selectedTask={selectedTask} onSelectTask={setSelectedTask} />
         </div>
+      </aside>
 
-        {/* Task Detail or Form */}
-        <div className="lg:col-span-2">
-          {showForm ? (
+      <main className="lg:col-span-3">
+        {showForm ? (
+          <div className="bg-white rounded-lg shadow-lg p-8">
             <TaskForm onSubmit={addTask} onCancel={() => setShowForm(false)} />
-          ) : selectedTask ? (
+          </div>
+        ) : selectedTask ? (
+          <div className="bg-white rounded-lg shadow-lg p-8">
             <TaskDetail
               task={selectedTask}
               onUpdate={updateTask}
               onDelete={deleteTask}
               onClose={() => setSelectedTask(null)}
             />
-          ) : (
-            <Card>
-              <CardContent className="pt-8">
-                <p className="text-center text-muted-foreground">Select a task or create a new one</p>
-              </CardContent>
-            </Card>
-          )}
-        </div>
-      </div>
+          </div>
+        ) : (
+          <>
+            <div className="space-y-6">
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900">My Task</h1>
+                <p className="text-gray-600 text-sm mt-1">Welcome back! Manage your tasks efficiently</p>
+              </div>
+
+              <div className="relative">
+                <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search task"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                {filteredTasks.length > 0 ? (
+                  filteredTasks.map((task) => {
+                    const deptColor = DEPARTMENT_COLORS[task.department] || DEPARTMENT_COLORS.Management
+                    return (
+                      <button
+                        key={task.id}
+                        onClick={() => setSelectedTask(task)}
+                        className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all border-l-4 text-left group overflow-hidden"
+                        style={{ borderLeftColor: deptColor.border }}
+                      >
+                        {/* Task Header with Department */}
+                        <div className="px-6 py-4" style={{ backgroundColor: deptColor.bg }}>
+                          <h3 className="font-bold text-sm" style={{ color: deptColor.text }}>
+                            {task.department}
+                          </h3>
+                        </div>
+
+                        {/* Task Content */}
+                        <div className="px-6 py-4 space-y-3">
+                          <h2 className="font-bold text-gray-900 group-hover:text-cyan-600 transition-colors">
+                            {task.title}
+                          </h2>
+                          <p className="text-gray-600 text-sm line-clamp-2">{task.description}</p>
+
+                          {/* Task Metadata */}
+                          <div className="flex items-center gap-4 text-sm text-gray-500">
+                            <div className="flex items-center gap-1">
+                              <MessageSquare size={16} />
+                              <span>{task.comments.length}</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Paperclip size={16} />
+                              <span>{task.attachments.length}</span>
+                            </div>
+                          </div>
+
+                          {/* Assigned Staff Avatar */}
+                          <div className="flex items-center gap-2 pt-2 border-t border-gray-200">
+                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-xs font-bold">
+                              {task.assignedTo.charAt(0).toUpperCase()}
+                            </div>
+                            <span className="text-xs text-gray-600">{task.assignedTo}</span>
+                          </div>
+                        </div>
+                      </button>
+                    )
+                  })
+                ) : (
+                  <div className="col-span-full text-center py-12">
+                    <p className="text-gray-500 text-lg">No tasks found</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </>
+        )}
+      </main>
     </div>
   )
 }

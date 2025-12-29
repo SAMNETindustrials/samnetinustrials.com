@@ -39,7 +39,33 @@ export function PayrollManagement({ userRole }: { userRole: string }) {
   useEffect(() => {
     const savedPayroll = localStorage.getItem("samnet_payroll")
     if (savedPayroll) {
-      setPayrollRecords(JSON.parse(savedPayroll))
+      try {
+        const parsed = JSON.parse(savedPayroll) as any[]
+        const normalized = parsed.map((p) => ({
+          id: String(p.id ?? ""),
+          staffId: String(p.staffId ?? ""),
+          staffName: String(p.staffName ?? ""),
+          month: String(p.month ?? selectedMonth),
+          baseSalary: Number(p.baseSalary ?? 0),
+          currency: String(p.currency ?? "USD"),
+          allowances: Number(p.allowances ?? 0),
+          bonus: Number(p.bonus ?? 0),
+          taxDeduction: Number(p.taxDeduction ?? 0),
+          leaveDays: Number(p.leaveDays ?? 0),
+          leaveDeduction: Number(p.leaveDeduction ?? 0),
+          grossSalary: Number(p.grossSalary ?? 0),
+          netSalary: Number(p.netSalary ?? 0),
+          status:
+            p.status === "paid" || p.status === "processed" || p.status === "draft"
+              ? p.status
+              : "draft",
+        })) as PayrollRecord[]
+
+        setPayrollRecords(normalized)
+      } catch (err) {
+        console.warn("Failed to parse saved payroll, resetting to default.", err)
+        setPayrollRecords([])
+      }
     } else {
       const defaultPayroll: PayrollRecord[] = [
         {
@@ -110,7 +136,7 @@ export function PayrollManagement({ userRole }: { userRole: string }) {
       status: "draft",
     }
 
-    let updatedRecords
+    let updatedRecords: PayrollRecord[]
     if (editingId) {
       updatedRecords = payrollRecords.map((rec) => (rec.id === editingId ? newPayroll : rec))
     } else {
