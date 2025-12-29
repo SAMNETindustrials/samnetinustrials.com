@@ -29,7 +29,7 @@ export default function SAMNETPortal() {
           <div className="absolute bottom-20 left-1/3 w-72 h-72 bg-blue-700 rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-blob animation-delay-4000"></div>
         </div>
 
-        <div className="container relative z-10">
+        <div className="container mx-auto px-4 relative z-10">
           <div className="space-y-8 text-center max-w-4xl mx-auto">
             <div className="inline-block">
               <img
@@ -89,7 +89,7 @@ export default function SAMNETPortal() {
           <div className="absolute bottom-1/3 left-1/3 w-64 h-64 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
         </div>
 
-        <div className="container relative z-10">
+        <div className="container mx-auto px-4 relative z-10">
           <SectionHeading title="Our Services" subtitle="Comprehensive tech solutions for modern businesses" />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
@@ -134,7 +134,7 @@ export default function SAMNETPortal() {
           <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
         </div>
 
-        <div className="container relative z-10">
+        <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl md:text-5xl font-bold mb-6">SAMNET Training Hub</h2>
@@ -217,7 +217,7 @@ export default function SAMNETPortal() {
 
       {/* Why Choose Us */}
       <section id="about" className="py-32 relative">
-        <div className="container relative z-10">
+        <div className="container mx-auto px-4 relative z-10">
           <SectionHeading title="Why Choose SAMNET?" subtitle="Setting new standards in tech innovation" />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
@@ -325,7 +325,7 @@ export default function SAMNETPortal() {
 
       {/* Footer */}
       <footer className="border-t border-blue-800/50 py-12">
-        <div className="container">
+        <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div>
               <Link href="/" className="font-bold text-xl inline-flex items-center gap-2 mb-4">
