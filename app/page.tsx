@@ -213,116 +213,130 @@ export default function SAMNETPortal() {
 
       {/* Service Request Dialog */}
       <Dialog open={isRequestOpen} onOpenChange={setIsRequestOpen}>
-        <DialogContent className="bg-slate-900 text-white">
-          <DialogHeader>
-            <DialogTitle>Request Service{selectedService ? ` — ${selectedService}` : ""}</DialogTitle>
-            <DialogDescription>Fill in your details and we'll get back to you.</DialogDescription>
-          </DialogHeader>
+        <DialogContent className="bg-slate-900 text-white max-w-4xl max-h-[80vh] overflow-auto">
+            <DialogHeader>
+              <DialogTitle>Request Service{selectedService ? ` — ${selectedService}` : ""}</DialogTitle>
+              <DialogDescription>Fill in your details and we'll get back to you.</DialogDescription>
+            </DialogHeader>
 
-          <div className="grid gap-3">
-            <label className="text-sm text-blue-200">Service</label>
-            <select
-              value={requestForm.service}
-              onChange={(e) => setRequestForm({ ...requestForm, service: e.target.value })}
-              className="w-full px-3 py-2 rounded bg-slate-800 border border-blue-700 text-white"
-            >
-              <option value="">Select a service</option>
-              <option value="Software Development">Software Development</option>
-              <option value="IoT & Smart Systems">IoT & Smart Systems</option>
-              <option value="Smart Gadgets">Smart Gadgets</option>
-              <option value="Manufacturing">Manufacturing</option>
-              <option value="Security & CCTV">Security & CCTV</option>
-              <option value="Digital Innovation">Digital Innovation</option>
-            </select>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="col-span-1">
+                <label className="text-sm text-blue-200">Service</label>
+                <select
+                  value={requestForm.service}
+                  onChange={(e) => setRequestForm({ ...requestForm, service: e.target.value })}
+                  className="w-full px-3 py-2 rounded bg-slate-800 border border-blue-700 text-white"
+                >
+                  <option value="">Select a service</option>
+                  <option value="Software Development">Software Development</option>
+                  <option value="IoT & Smart Systems">IoT & Smart Systems</option>
+                  <option value="Smart Gadgets">Smart Gadgets</option>
+                  <option value="Manufacturing">Manufacturing</option>
+                  <option value="Security & CCTV">Security & CCTV</option>
+                  <option value="Digital Innovation">Digital Innovation</option>
+                </select>
+              </div>
 
-            <Input
-              placeholder="Your Name"
-              value={requestForm.name}
-              onChange={(e) => setRequestForm({ ...requestForm, name: e.target.value })}
-            />
+              <Input
+                placeholder="Your Name"
+                value={requestForm.name}
+                onChange={(e) => setRequestForm({ ...requestForm, name: e.target.value })}
+              />
 
-            <Input
-              placeholder="Email"
-              value={requestForm.email}
-              onChange={(e) => setRequestForm({ ...requestForm, email: e.target.value })}
-            />
+              <Input
+                placeholder="Email"
+                value={requestForm.email}
+                onChange={(e) => setRequestForm({ ...requestForm, email: e.target.value })}
+              />
 
-            <Input
-              placeholder="Company (optional)"
-              value={requestForm.company}
-              onChange={(e) => setRequestForm({ ...requestForm, company: e.target.value })}
-            />
+              <Input
+                placeholder="Company (optional)"
+                value={requestForm.company}
+                onChange={(e) => setRequestForm({ ...requestForm, company: e.target.value })}
+              />
 
-            <Input
-              placeholder="Phone (optional)"
-              value={requestForm.phone}
-              onChange={(e) => setRequestForm({ ...requestForm, phone: e.target.value })}
-            />
+              <Input
+                placeholder="Phone (optional)"
+                value={requestForm.phone}
+                onChange={(e) => setRequestForm({ ...requestForm, phone: e.target.value })}
+              />
 
-            <label className="text-sm text-blue-200">Preferred contact method</label>
-            <select
-              value={requestForm.preferredContactMethod}
-              onChange={(e) => setRequestForm({ ...requestForm, preferredContactMethod: e.target.value })}
-              className="w-full px-3 py-2 rounded bg-slate-800 border border-blue-700 text-white"
-            >
-              <option>Email</option>
-              <option>Phone</option>
-            </select>
+              <div>
+                <label className="text-sm text-blue-200">Preferred contact method</label>
+                <select
+                  value={requestForm.preferredContactMethod}
+                  onChange={(e) => setRequestForm({ ...requestForm, preferredContactMethod: e.target.value })}
+                  className="w-full px-3 py-2 rounded bg-slate-800 border border-blue-700 text-white"
+                >
+                  <option>Email</option>
+                  <option>Phone</option>
+                </select>
+              </div>
 
-            <label className="text-sm text-blue-200">Preferred start date</label>
-            <Input
-              type="date"
-              value={requestForm.preferredStartDate}
-              onChange={(e) => setRequestForm({ ...requestForm, preferredStartDate: e.target.value })}
-            />
+              <div>
+                <label className="text-sm text-blue-200">Preferred start date</label>
+                <Input
+                  type="date"
+                  value={requestForm.preferredStartDate}
+                  onChange={(e) => setRequestForm({ ...requestForm, preferredStartDate: e.target.value })}
+                />
+              </div>
 
-            <label className="text-sm text-blue-200">Budget (optional)</label>
-            <Input
-              placeholder="e.g., 5000 - 15000"
-              value={requestForm.budget}
-              onChange={(e) => setRequestForm({ ...requestForm, budget: e.target.value })}
-            />
+              <div>
+                <label className="text-sm text-blue-200">Budget (optional)</label>
+                <Input
+                  placeholder="e.g., 5000 - 15000"
+                  value={requestForm.budget}
+                  onChange={(e) => setRequestForm({ ...requestForm, budget: e.target.value })}
+                />
+              </div>
 
-            <label className="text-sm text-blue-200">Timeline</label>
-            <select
-              value={requestForm.timeline}
-              onChange={(e) => setRequestForm({ ...requestForm, timeline: e.target.value })}
-              className="w-full px-3 py-2 rounded bg-slate-800 border border-blue-700 text-white"
-            >
-              <option>Within 1 month</option>
-              <option>1 - 3 months</option>
-              <option>3 - 6 months</option>
-              <option>6+ months</option>
-            </select>
+              <div>
+                <label className="text-sm text-blue-200">Timeline</label>
+                <select
+                  value={requestForm.timeline}
+                  onChange={(e) => setRequestForm({ ...requestForm, timeline: e.target.value })}
+                  className="w-full px-3 py-2 rounded bg-slate-800 border border-blue-700 text-white"
+                >
+                  <option>Within 1 month</option>
+                  <option>1 - 3 months</option>
+                  <option>3 - 6 months</option>
+                  <option>6+ months</option>
+                </select>
+              </div>
 
-            <label className="text-sm text-blue-200">Project details</label>
-            <Textarea
-              placeholder="Describe your project requirements in as much detail as possible"
-              value={requestForm.details}
-              onChange={(e) => setRequestForm({ ...requestForm, details: e.target.value })}
-              rows={5}
-            />
+              <div className="md:col-span-2">
+                <label className="text-sm text-blue-200">Project details</label>
+                <Textarea
+                  placeholder="Describe your project requirements in as much detail as possible"
+                  value={requestForm.details}
+                  onChange={(e) => setRequestForm({ ...requestForm, details: e.target.value })}
+                  rows={6}
+                />
+              </div>
 
-            <label className="text-sm text-blue-200">Attachment (optional)</label>
-            <input
-              type="file"
-              onChange={(e) => {
-                const file = e.target.files?.[0]
-                if (file) {
-                  const reader = new FileReader()
-                  reader.onload = () => {
-                    setRequestForm((prev) => ({
-                      ...prev,
-                      attachmentName: file.name,
-                      attachmentData: reader.result as string,
-                    }))
-                  }
-                  reader.readAsDataURL(file)
-                }
-              }}
-              className="w-full text-sm text-white"
-            />
-          </div>
+              <div className="md:col-span-2">
+                <label className="text-sm text-blue-200">Attachment (optional)</label>
+                <input
+                  type="file"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (file) {
+                      const reader = new FileReader()
+                      reader.onload = () => {
+                        setRequestForm((prev) => ({
+                          ...prev,
+                          attachmentName: file.name,
+                          attachmentData: reader.result as string,
+                        }))
+                      }
+                      reader.readAsDataURL(file)
+                    }
+                  }}
+                  className="w-full text-sm text-white"
+                />
+              </div>
+            </div>
 
           <DialogFooter>
             <DialogClose>
