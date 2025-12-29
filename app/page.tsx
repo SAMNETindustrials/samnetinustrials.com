@@ -2,20 +2,7 @@
 
 import Link from "next/link"
 import { ArrowRight, Github, Linkedin, Mail, Zap, Cpu, Smartphone, Shield, Code2, Lightbulb } from "lucide-react"
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog"
-import { useToast } from "@/hooks/use-toast"
 import { ContactForm } from "@/components/contact-form"
 import { CreativeHero } from "@/components/creative-hero"
 import { FloatingNav } from "@/components/floating-nav"
@@ -24,65 +11,16 @@ import { ScrollProgress } from "@/components/scroll-progress"
 import { SectionHeading } from "@/components/section-heading"
 import { GlassmorphicCard } from "@/components/glassmorphic-card"
 import { ServiceCard } from "@/components/service-card"
+import { ServiceBookingButton } from "@/components/service-booking-button"
+import { ServiceBookingModal } from "@/components/service-booking-modal"
+import { ScholarshipModal } from "@/components/scholarship-modal"
+import { useState } from "react"
 
 export default function SAMNETPortal() {
-  const { toast } = useToast()
-  const [isRequestOpen, setIsRequestOpen] = useState(false)
-  const [selectedService, setSelectedService] = useState<string | null>(null)
+  const [isServiceBookingOpen, setIsServiceBookingOpen] = useState(false)
+  const [isScholarshipOpen, setIsScholarshipOpen] = useState(false)
+  const [scholarshipTab, setScholarshipTab] = useState<"details" | "application" | "payment">("details")
 
-  const [requestForm, setRequestForm] = useState({
-    service: "",
-    name: "",
-    email: "",
-    company: "",
-    phone: "",
-    preferredContactMethod: "Email",
-    preferredStartDate: "",
-    budget: "",
-    timeline: "Within 1 month",
-    details: "",
-    attachmentName: "",
-    attachmentData: "",
-  })
-
-  const openServiceRequest = (service: string) => {
-    setSelectedService(service)
-    setRequestForm((s) => ({ ...s, service }))
-    setIsRequestOpen(true)
-  }
-
-  const submitServiceRequest = () => {
-    if (!requestForm.name || !requestForm.email || !requestForm.service) {
-      toast({ title: "Please fill name, email and select a service" })
-      return
-    }
-
-    const saved = localStorage.getItem("samnet_service_requests")
-    const arr = saved ? JSON.parse(saved) : []
-    arr.push({
-      id: `req-${Date.now()}`,
-      service: requestForm.service || selectedService,
-      ...requestForm,
-      createdAt: new Date().toISOString(),
-    })
-    localStorage.setItem("samnet_service_requests", JSON.stringify(arr))
-    toast({ title: "Request submitted", description: "We will reach out to you soon." })
-    setIsRequestOpen(false)
-    setRequestForm({
-      service: "",
-      name: "",
-      email: "",
-      company: "",
-      phone: "",
-      preferredContactMethod: "Email",
-      preferredStartDate: "",
-      budget: "",
-      timeline: "Within 1 month",
-      details: "",
-      attachmentName: "",
-      attachmentData: "",
-    })
-  }
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950 to-slate-900 text-white overflow-hidden">
       <MouseFollower />
@@ -90,7 +28,7 @@ export default function SAMNETPortal() {
       <FloatingNav />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 z-0">
         <div className="absolute inset-0 z-0">
           <CreativeHero />
         </div>
@@ -155,7 +93,7 @@ export default function SAMNETPortal() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-32 relative">
+      <section id="services" className="py-32 relative z-0">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
           <div className="absolute bottom-1/3 left-1/3 w-64 h-64 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
@@ -197,160 +135,14 @@ export default function SAMNETPortal() {
             />
           </div>
 
-          <div className="mt-8 text-center">
-            <Button
-              onClick={() => {
-                setSelectedService(null)
-                setIsRequestOpen(true)
-              }}
-              className="bg-gradient-to-r from-green-500 to-emerald-500 border-0"
-            >
-              Book a Service
-            </Button>
+          <div className="mt-16 flex justify-center">
+            <ServiceBookingButton onOpen={() => setIsServiceBookingOpen(true)} />
           </div>
         </div>
       </section>
 
-      {/* Service Request Dialog */}
-      <Dialog open={isRequestOpen} onOpenChange={setIsRequestOpen}>
-        <DialogContent className="bg-slate-900 text-white max-w-4xl max-h-[80vh] overflow-auto">
-            <DialogHeader>
-              <DialogTitle>Request Service{selectedService ? ` — ${selectedService}` : ""}</DialogTitle>
-              <DialogDescription>Fill in your details and we'll get back to you.</DialogDescription>
-            </DialogHeader>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="col-span-1">
-                <label className="text-sm text-blue-200">Service</label>
-                <select
-                  value={requestForm.service}
-                  onChange={(e) => setRequestForm({ ...requestForm, service: e.target.value })}
-                  className="w-full px-3 py-2 rounded bg-slate-800 border border-blue-700 text-white"
-                >
-                  <option value="">Select a service</option>
-                  <option value="Software Development">Software Development</option>
-                  <option value="IoT & Smart Systems">IoT & Smart Systems</option>
-                  <option value="Smart Gadgets">Smart Gadgets</option>
-                  <option value="Manufacturing">Manufacturing</option>
-                  <option value="Security & CCTV">Security & CCTV</option>
-                  <option value="Digital Innovation">Digital Innovation</option>
-                </select>
-              </div>
-
-              <Input
-                placeholder="Your Name"
-                value={requestForm.name}
-                onChange={(e) => setRequestForm({ ...requestForm, name: e.target.value })}
-              />
-
-              <Input
-                placeholder="Email"
-                value={requestForm.email}
-                onChange={(e) => setRequestForm({ ...requestForm, email: e.target.value })}
-              />
-
-              <Input
-                placeholder="Company (optional)"
-                value={requestForm.company}
-                onChange={(e) => setRequestForm({ ...requestForm, company: e.target.value })}
-              />
-
-              <Input
-                placeholder="Phone (optional)"
-                value={requestForm.phone}
-                onChange={(e) => setRequestForm({ ...requestForm, phone: e.target.value })}
-              />
-
-              <div>
-                <label className="text-sm text-blue-200">Preferred contact method</label>
-                <select
-                  value={requestForm.preferredContactMethod}
-                  onChange={(e) => setRequestForm({ ...requestForm, preferredContactMethod: e.target.value })}
-                  className="w-full px-3 py-2 rounded bg-slate-800 border border-blue-700 text-white"
-                >
-                  <option>Email</option>
-                  <option>Phone</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="text-sm text-blue-200">Preferred start date</label>
-                <Input
-                  type="date"
-                  value={requestForm.preferredStartDate}
-                  onChange={(e) => setRequestForm({ ...requestForm, preferredStartDate: e.target.value })}
-                />
-              </div>
-
-              <div>
-                <label className="text-sm text-blue-200">Budget (optional)</label>
-                <Input
-                  placeholder="e.g., 5000 - 15000"
-                  value={requestForm.budget}
-                  onChange={(e) => setRequestForm({ ...requestForm, budget: e.target.value })}
-                />
-              </div>
-
-              <div>
-                <label className="text-sm text-blue-200">Timeline</label>
-                <select
-                  value={requestForm.timeline}
-                  onChange={(e) => setRequestForm({ ...requestForm, timeline: e.target.value })}
-                  className="w-full px-3 py-2 rounded bg-slate-800 border border-blue-700 text-white"
-                >
-                  <option>Within 1 month</option>
-                  <option>1 - 3 months</option>
-                  <option>3 - 6 months</option>
-                  <option>6+ months</option>
-                </select>
-              </div>
-
-              <div className="md:col-span-2">
-                <label className="text-sm text-blue-200">Project details</label>
-                <Textarea
-                  placeholder="Describe your project requirements in as much detail as possible"
-                  value={requestForm.details}
-                  onChange={(e) => setRequestForm({ ...requestForm, details: e.target.value })}
-                  rows={6}
-                />
-              </div>
-
-              <div className="md:col-span-2">
-                <label className="text-sm text-blue-200">Attachment (optional)</label>
-                <input
-                  type="file"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0]
-                    if (file) {
-                      const reader = new FileReader()
-                      reader.onload = () => {
-                        setRequestForm((prev) => ({
-                          ...prev,
-                          attachmentName: file.name,
-                          attachmentData: reader.result as string,
-                        }))
-                      }
-                      reader.readAsDataURL(file)
-                    }
-                  }}
-                  className="w-full text-sm text-white"
-                />
-              </div>
-            </div>
-
-          <DialogFooter>
-            <DialogClose>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <Button onClick={submitServiceRequest} className="bg-gradient-to-r from-blue-500 to-cyan-500">
-              Submit Request
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
       {/* Training Hub Section */}
-      <section id="training" className="py-32 relative">
+      <section id="training" className="py-32 relative z-0">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-1/3 left-1/4 w-64 h-64 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
           <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
@@ -424,21 +216,40 @@ export default function SAMNETPortal() {
             </div>
 
             <div className="mt-12 p-8 rounded-xl bg-gradient-to-r from-blue-900/30 to-cyan-900/20 border border-blue-500/30 text-center">
-              <h3 className="text-2xl font-bold mb-4">Scholarship Opportunities Available</h3>
+              <h3 className="text-2xl font-bold mb-4">Discount Programms Available</h3>
               <p className="text-blue-100 mb-6">
-                We believe in nurturing talent. Merit-based and need-based scholarships are available for deserving
-                students who are passionate about technology.
+                We believe in exploaring potentials. Merit-based and need-based interests is 
+                considered and will be determined in our exhibtion classes. 
+                Individuals who are passionate about technology will be rewarded with discounts.
               </p>
-              <Button className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-cyan-500 hover:to-blue-500 border-0">
-                Learn More & Apply
-              </Button>
+              <div className="flex gap-4 justify-center flex-wrap">
+                <Button
+                  onClick={() => {
+                    setScholarshipTab("details")
+                    setIsScholarshipOpen(true)
+                  }}
+                  className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-cyan-500 hover:to-blue-500 border-0 cursor-pointer"
+                >
+                  Learn More
+                </Button>
+                <Button
+                  onClick={() => {
+                    setScholarshipTab("application")
+                    setIsScholarshipOpen(true)
+                  }}
+                  variant="outline"
+                  className="border-cyan-400/50 text-cyan-300 hover:text-cyan-200 hover:border-cyan-300 bg-transparent cursor-pointer"
+                >
+                  Apply Now
+                </Button>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Why Choose Us */}
-      <section id="about" className="py-32 relative">
+      <section id="about" className="py-32 relative z-0">
         <div className="container mx-auto px-4 relative z-10">
           <SectionHeading title="Why Choose SAMNET?" subtitle="Setting new standards in tech innovation" />
 
@@ -452,7 +263,7 @@ export default function SAMNETPortal() {
             </GlassmorphicCard>
 
             <GlassmorphicCard>
-              <div className="text-4xl font-bold text-cyan-400 mb-4">10+</div>
+              <div className="text-4xl font-bold text-cyan-400 mb-4">500+</div>
               <h3 className="text-xl font-bold mb-3">Projects Completed</h3>
               <p className="text-blue-200">
                 From startups to enterprises, we've successfully delivered transformative tech solutions.
@@ -460,7 +271,7 @@ export default function SAMNETPortal() {
             </GlassmorphicCard>
 
             <GlassmorphicCard>
-              <div className="text-4xl font-bold text-cyan-400 mb-4">10+</div>
+              <div className="text-4xl font-bold text-cyan-400 mb-4">1000+</div>
               <h3 className="text-xl font-bold mb-3">Trained Professionals</h3>
               <p className="text-blue-200">
                 Passionate individuals transformed into skilled tech professionals through our training programs.
@@ -471,84 +282,82 @@ export default function SAMNETPortal() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-32 relative">
+      <section id="contact" className="py-32 relative z-0">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
           <div className="absolute bottom-1/3 right-1/3 w-64 h-64 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-5xl mx-auto">
-            <SectionHeading title="Get In Touch" subtitle="Let's build the future together" />
+          <SectionHeading title="Get In Touch" subtitle="Let's build the future together" />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start mt-16">
-              <GlassmorphicCard>
-                <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-full bg-blue-900/50 flex items-center justify-center flex-shrink-0">
-                      <Mail className="h-5 w-5 text-cyan-400" />
-                    </div>
-                    <div>
-                      <div className="text-sm text-blue-300">Email</div>
-                      <div className="font-medium">info@samnetindustrials.com</div>
-                    </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start mt-16">
+            <GlassmorphicCard>
+              <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-blue-900/50 flex items-center justify-center flex-shrink-0">
+                    <Mail className="h-5 w-5 text-cyan-400" />
                   </div>
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-full bg-blue-900/50 flex items-center justify-center flex-shrink-0">
-                      <Smartphone className="h-5 w-5 text-cyan-400" />
-                    </div>
-                    <div>
-                      <div className="text-sm text-blue-300">Phone</div>
-                      <div className="font-medium">+234 (90) 27349707</div>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-full bg-blue-900/50 flex items-center justify-center flex-shrink-0">
-                      <Zap className="h-5 w-5 text-cyan-400" />
-                    </div>
-                    <div>
-                      <div className="text-sm text-blue-300">Business Hours</div>
-                      <div className="font-medium">Mon - Fri, 8:00 AM - 5:00 PM</div>
-                    </div>
+                  <div>
+                    <div className="text-sm text-blue-300">Email</div>
+                    <div className="font-medium">info@samnetindustrials.com</div>
                   </div>
                 </div>
-
-                <div className="mt-8 pt-8 border-t border-blue-700/50">
-                  <h4 className="text-lg font-medium mb-4">Follow Us</h4>
-                  <div className="flex gap-4">
-                    <Link href="#" target="_blank" rel="noopener noreferrer">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="rounded-full bg-blue-900/50 hover:bg-blue-800 text-cyan-400 hover:text-cyan-300"
-                      >
-                        <Linkedin className="h-5 w-5" />
-                        <span className="sr-only">LinkedIn</span>
-                      </Button>
-                    </Link>
-                    <Link href="#" target="_blank" rel="noopener noreferrer">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="rounded-full bg-blue-900/50 hover:bg-blue-800 text-cyan-400 hover:text-cyan-300"
-                      >
-                        <Github className="h-5 w-5" />
-                        <span className="sr-only">GitHub</span>
-                      </Button>
-                    </Link>
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-blue-900/50 flex items-center justify-center flex-shrink-0">
+                    <Smartphone className="h-5 w-5 text-cyan-400" />
+                  </div>
+                  <div>
+                    <div className="text-sm text-blue-300">Phone</div>
+                    <div className="font-medium">+1 (555) 123-4567</div>
                   </div>
                 </div>
-              </GlassmorphicCard>
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-blue-900/50 flex items-center justify-center flex-shrink-0">
+                    <Zap className="h-5 w-5 text-cyan-400" />
+                  </div>
+                  <div>
+                    <div className="text-sm text-blue-300">Business Hours</div>
+                    <div className="font-medium">Mon - Fri, 9:00 AM - 6:00 PM</div>
+                  </div>
+                </div>
+              </div>
 
-              <ContactForm />
-            </div>
+              <div className="mt-8 pt-8 border-t border-blue-700/50">
+                <h4 className="text-lg font-medium mb-4">Follow Us</h4>
+                <div className="flex gap-4">
+                  <Link href="#" target="_blank" rel="noopener noreferrer">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="rounded-full bg-blue-900/50 hover:bg-blue-800 text-cyan-400 hover:text-cyan-300"
+                    >
+                      <Linkedin className="h-5 w-5" />
+                      <span className="sr-only">LinkedIn</span>
+                    </Button>
+                  </Link>
+                  <Link href="#" target="_blank" rel="noopener noreferrer">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="rounded-full bg-blue-900/50 hover:bg-blue-800 text-cyan-400 hover:text-cyan-300"
+                    >
+                      <Github className="h-5 w-5" />
+                      <span className="sr-only">GitHub</span>
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </GlassmorphicCard>
+
+            <ContactForm />
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-blue-800/50 py-12">
+      <footer className="border-t border-blue-800/50 py-12 relative z-0">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div>
@@ -606,6 +415,10 @@ export default function SAMNETPortal() {
           </div>
         </div>
       </footer>
+
+      {/* Modals */}
+      <ServiceBookingModal isOpen={isServiceBookingOpen} onClose={() => setIsServiceBookingOpen(false)} />
+      <ScholarshipModal isOpen={isScholarshipOpen} onClose={() => setIsScholarshipOpen(false)} tab={scholarshipTab} />
     </div>
   )
 }
