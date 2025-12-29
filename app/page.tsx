@@ -255,70 +255,72 @@ export default function SAMNETPortal() {
           <div className="absolute bottom-1/3 right-1/3 w-64 h-64 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
         </div>
 
-        <div className="container relative z-10">
-          <SectionHeading title="Get In Touch" subtitle="Let's build the future together" />
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-5xl mx-auto">
+            <SectionHeading title="Get In Touch" subtitle="Let's build the future together" />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start mt-16">
-            <GlassmorphicCard>
-              <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-blue-900/50 flex items-center justify-center flex-shrink-0">
-                    <Mail className="h-5 w-5 text-cyan-400" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start mt-16">
+              <GlassmorphicCard>
+                <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-full bg-blue-900/50 flex items-center justify-center flex-shrink-0">
+                      <Mail className="h-5 w-5 text-cyan-400" />
+                    </div>
+                    <div>
+                      <div className="text-sm text-blue-300">Email</div>
+                      <div className="font-medium">info@samnetindustrials.com</div>
+                    </div>
                   </div>
-                  <div>
-                    <div className="text-sm text-blue-300">Email</div>
-                    <div className="font-medium">info@samnetindustrials.com</div>
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-full bg-blue-900/50 flex items-center justify-center flex-shrink-0">
+                      <Smartphone className="h-5 w-5 text-cyan-400" />
+                    </div>
+                    <div>
+                      <div className="text-sm text-blue-300">Phone</div>
+                      <div className="font-medium">+234 (90) 27349707</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-full bg-blue-900/50 flex items-center justify-center flex-shrink-0">
+                      <Zap className="h-5 w-5 text-cyan-400" />
+                    </div>
+                    <div>
+                      <div className="text-sm text-blue-300">Business Hours</div>
+                      <div className="font-medium">Mon - Fri, 8:00 AM - 5:00 PM</div>
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-blue-900/50 flex items-center justify-center flex-shrink-0">
-                    <Smartphone className="h-5 w-5 text-cyan-400" />
-                  </div>
-                  <div>
-                    <div className="text-sm text-blue-300">Phone</div>
-                    <div className="font-medium">+234 (90) 27349707</div>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-blue-900/50 flex items-center justify-center flex-shrink-0">
-                    <Zap className="h-5 w-5 text-cyan-400" />
-                  </div>
-                  <div>
-                    <div className="text-sm text-blue-300">Business Hours</div>
-                    <div className="font-medium">Mon - Fri, 8:00 AM - 5:00 PM</div>
-                  </div>
-                </div>
-              </div>
 
-              <div className="mt-8 pt-8 border-t border-blue-700/50">
-                <h4 className="text-lg font-medium mb-4">Follow Us</h4>
-                <div className="flex gap-4">
-                  <Link href="#" target="_blank" rel="noopener noreferrer">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="rounded-full bg-blue-900/50 hover:bg-blue-800 text-cyan-400 hover:text-cyan-300"
-                    >
-                      <Linkedin className="h-5 w-5" />
-                      <span className="sr-only">LinkedIn</span>
-                    </Button>
-                  </Link>
-                  <Link href="#" target="_blank" rel="noopener noreferrer">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="rounded-full bg-blue-900/50 hover:bg-blue-800 text-cyan-400 hover:text-cyan-300"
-                    >
-                      <Github className="h-5 w-5" />
-                      <span className="sr-only">GitHub</span>
-                    </Button>
-                  </Link>
+                <div className="mt-8 pt-8 border-t border-blue-700/50">
+                  <h4 className="text-lg font-medium mb-4">Follow Us</h4>
+                  <div className="flex gap-4">
+                    <Link href="#" target="_blank" rel="noopener noreferrer">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="rounded-full bg-blue-900/50 hover:bg-blue-800 text-cyan-400 hover:text-cyan-300"
+                      >
+                        <Linkedin className="h-5 w-5" />
+                        <span className="sr-only">LinkedIn</span>
+                      </Button>
+                    </Link>
+                    <Link href="#" target="_blank" rel="noopener noreferrer">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="rounded-full bg-blue-900/50 hover:bg-blue-800 text-cyan-400 hover:text-cyan-300"
+                      >
+                        <Github className="h-5 w-5" />
+                        <span className="sr-only">GitHub</span>
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            </GlassmorphicCard>
+              </GlassmorphicCard>
 
-            <ContactForm />
+              <ContactForm />
+            </div>
           </div>
         </div>
       </section>
