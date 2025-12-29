@@ -123,13 +123,22 @@ export function HomepageChatbot() {
             {/* Header */}
             <div className="bg-gradient-to-r from-blue-600 to-cyan-600 px-6 py-4 flex items-center justify-between flex-shrink-0">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center overflow-hidden">
+                <button
+                  onClick={() => {
+                    const el = document.getElementById("about")
+                    if (el) el.scrollIntoView({ behavior: "smooth" })
+                  }}
+                  className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center overflow-hidden p-0"
+                  aria-label="Go to About section"
+                  title="About SAMNET"
+                >
                   <img
                     src="/images/samnetlogo1-removebg-preview.png"
-                    alt="SAMNET"
-                    className="h-5 w-5 object-cover"
+                    alt="SAMNET logo"
+                    className="h-5 w-5 object-contain"
+                    draggable={false}
                   />
-                </div>
+                </button>
                 <div>
                   <h3 className="font-semibold text-white text-sm">SAMNET Assistant</h3>
                   <p className="text-xs text-blue-100">Always here to help</p>
