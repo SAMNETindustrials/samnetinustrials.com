@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { ArrowRight, Github, Linkedin, Mail, Zap, Cpu, Smartphone, Shield, Code2, Lightbulb } from "lucide-react"
 import { useState } from "react"
