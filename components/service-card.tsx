@@ -1,17 +1,16 @@
 "use client"
 
 import type { ReactNode } from "react"
-import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 
 interface ServiceCardProps {
   icon: ReactNode
   title: string
   description: string
-  onBook?: () => void
 }
 
 export function ServiceCard({ icon, title, description }: ServiceCardProps) {
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -28,15 +27,7 @@ export function ServiceCard({ icon, title, description }: ServiceCardProps) {
           </div>
           <h3 className="text-xl font-bold mb-2 group-hover:text-cyan-300 transition-colors">{title}</h3>
           <p className="text-blue-200 leading-relaxed">{description}</p>
-          <div className="mt-4">
-            <Button
-              size="sm"
-              className="bg-gradient-to-r from-green-500 to-emerald-500 border-0"
-              onClick={onBook}
-            >
-              Book a Service
-            </Button>
-          </div>
+          
         </div>
       </div>
     </motion.div>
