@@ -7,6 +7,17 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import type { Task } from "./task-management"
 
+const DEPARTMENTS = [
+  "Management",
+  "Operations",
+  "Training",
+  "Infrastructure",
+  "Finance",
+  "HR",
+  "Marketing",
+  "Customer Service",
+]
+
 interface TaskFormProps {
   onSubmit: (task: Omit<Task, "id" | "comments" | "attachments" | "createdAt" | "updatedAt">) => void
   onCancel: () => void
@@ -18,6 +29,7 @@ export function TaskForm({ onSubmit, onCancel, initialData }: TaskFormProps) {
     title: initialData?.title || "",
     description: initialData?.description || "",
     assignedTo: initialData?.assignedTo || "",
+    department: initialData?.department || "Management",
     status: initialData?.status || ("pending" as const),
     priority: initialData?.priority || ("medium" as const),
     dueDate: initialData?.dueDate || "",
@@ -59,6 +71,21 @@ export function TaskForm({ onSubmit, onCancel, initialData }: TaskFormProps) {
               className="w-full px-4 py-2 border border-input rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
               rows={4}
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-2">Department / Unit</label>
+            <select
+              value={formData.department}
+              onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+              className="w-full px-4 py-2 border border-input rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              {DEPARTMENTS.map((dept) => (
+                <option key={dept} value={dept}>
+                  {dept}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="grid grid-cols-2 gap-4">

@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Plus, Upload, Download, Printer, X } from "lucide-react"
 import type { Staff } from "./staff-management"
 import { StaffIDCard } from "./staff-id-card"
-import { Award as IdCard } from "lucide-react" // Import the IdCard component
+import { Award as IdCard } from "lucide-react" 
 
 interface StaffWithPhotos extends Staff {
   passportPhoto?: string
