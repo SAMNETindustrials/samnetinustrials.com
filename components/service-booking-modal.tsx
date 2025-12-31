@@ -44,12 +44,16 @@ export function ServiceBookingModal({ isOpen, onClose }: ServiceBookingModalProp
   })
 
   const services = [
-    "Software Development",
+    "Software Development & Consultation",
+    "Mobile Apllication",
+    "Web Development",
     "IoT & Smart Systems",
-    "Smart Gadgets",
+    "UI/UX, Product Designs & Branding",
     "Manufacturing",
     "Security & CCTV",
-    "Digital Innovation",
+    "Engineering Designs",
+    "3D Printing Technology",
+    "Data Science & Analytics",
   ]
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -124,7 +128,7 @@ export function ServiceBookingModal({ isOpen, onClose }: ServiceBookingModalProp
             <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-cyan-600 px-6 py-6 flex items-center justify-between border-b border-blue-400/20 z-10">
               <div>
                 <h2 className="text-2xl font-bold text-white">Book Our Services</h2>
-                <p className="text-sm text-blue-100 mt-1">Transform your business with SAMNET solutions</p>
+                <p className="text-sm text-blue-100 mt-1">Transform your business with SAMNET Industrials tech solutions</p>
               </div>
               <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-lg transition-colors">
                 <X className="h-6 w-6 text-white" />
@@ -332,15 +336,8 @@ export function ServiceBookingModal({ isOpen, onClose }: ServiceBookingModalProp
 
               {step < 3 ? (
                 <Button
-                  onClick={() => {
-                    if (step === 1 && canProceedStep1) {
-                      setStep(2)
-                    } else if (step === 2 && canProceedStep2) {
-                      setStep(3)
-                    }
-                  }}
-                  disabled={step === 1 ? !canProceedStep1 : step === 2 ? !canProceedStep2 : false}
-                  className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-cyan-500 hover:to-blue-500 border-0 text-white cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  onClick={() => setStep((s) => Math.min(3, s + 1))}
+                  className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-cyan-500 hover:to-blue-500 border-0 text-white cursor-pointer transition-all"
                 >
                   Next
                 </Button>

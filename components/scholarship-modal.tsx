@@ -143,10 +143,10 @@ export function ScholarshipModal({ isOpen, onClose, tab: initialTab }: Scholarsh
                       About Our Discounts & Training Programs
                     </h3>
                     <p className="text-blue-100 mb-4">
-                      SAMNET Industrials is committed to nurturing young tech talents. Our discount program is
-                      designed to support passionate individuals who are interested and enthusiastic in technology
-                      fields with a 60% discount for the first 10 perosons whose passion exceeds others in the exhibtion class. Join our Training Hub 
-                      and get hands-on experience with real-world projects.
+                      SAMNET Industrials is committed to nurturing and developing young tech talents. Our discount program is
+                      designed to support passionate individuals who are interested and enthusiastic in tech
+                      fields. We are offering a 60% discount to few individuals whose passion exceeds others during our 
+                      exhibtion classes. Join our Training Hub and get hands-on experience with real-world projects.
                     </p>
                   </div>
 

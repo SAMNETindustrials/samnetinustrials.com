@@ -171,13 +171,13 @@ export function PayrollManagement({ userRole }: { userRole: string }) {
   }
 
   const handleProcessPayroll = (id: string) => {
-    const updatedRecords = payrollRecords.map((rec) => (rec.id === id ? { ...rec, status: "processed" } : rec))
+    const updatedRecords = payrollRecords.map((rec) => (rec.id === id ? { ...rec, status: "processed" as const } : rec))
     setPayrollRecords(updatedRecords)
     localStorage.setItem("samnet_payroll", JSON.stringify(updatedRecords))
   }
 
   const handlePayPayroll = (id: string) => {
-    const updatedRecords = payrollRecords.map((rec) => (rec.id === id ? { ...rec, status: "paid" } : rec))
+    const updatedRecords = payrollRecords.map((rec) => (rec.id === id ? { ...rec, status: "paid" as const } : rec))
     setPayrollRecords(updatedRecords)
     localStorage.setItem("samnet_payroll", JSON.stringify(updatedRecords))
   }

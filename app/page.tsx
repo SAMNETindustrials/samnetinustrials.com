@@ -11,9 +11,12 @@ import { ScrollProgress } from "@/components/scroll-progress"
 import { SectionHeading } from "@/components/section-heading"
 import { GlassmorphicCard } from "@/components/glassmorphic-card"
 import { ServiceCard } from "@/components/service-card"
-import { ServiceBookingButton } from "@/components/service-booking-button"
 import { ServiceBookingModal } from "@/components/service-booking-modal"
 import { ScholarshipModal } from "@/components/scholarship-modal"
+import { VideoHeroSection } from "@/components/video-hero-section"
+import { ProjectsSection } from "@/components/projects-section"
+import { PartnersSection } from "@/components/partners-section"
+import { ServiceBookingCard } from "@/components/service-booking-card"
 import { useState } from "react"
 
 export default function SAMNETPortal() {
@@ -39,7 +42,7 @@ export default function SAMNETPortal() {
           <div className="absolute bottom-20 left-1/3 w-72 h-72 bg-blue-700 rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-blob animation-delay-4000"></div>
         </div>
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container relative z-10">
           <div className="space-y-8 text-center max-w-4xl mx-auto">
             <div className="inline-block">
               <img
@@ -93,13 +96,13 @@ export default function SAMNETPortal() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-32 relative z-0">
+      <section id="services" className="py-16 relative z-0">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
           <div className="absolute bottom-1/3 left-1/3 w-64 h-64 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
         </div>
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
           <SectionHeading title="Our Services" subtitle="Comprehensive tech solutions for modern businesses" />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
@@ -135,20 +138,29 @@ export default function SAMNETPortal() {
             />
           </div>
 
-          <div className="mt-16 flex justify-center">
-            <ServiceBookingButton onOpen={() => setIsServiceBookingOpen(true)} />
+          <div className="mt-12 max-w-2xl mx-auto">
+            <ServiceBookingCard onOpen={() => setIsServiceBookingOpen(true)} />
           </div>
         </div>
       </section>
 
+      {/* Video Hero Section */}
+      <VideoHeroSection />
+
+      {/* Projects Section */}
+      <ProjectsSection />
+
+      {/* Partners Section */}
+      <PartnersSection />
+
       {/* Training Hub Section */}
-      <section id="training" className="py-32 relative z-0">
+      <section id="training" className="py-16 relative z-0">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-1/3 left-1/4 w-64 h-64 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
           <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
         </div>
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl md:text-5xl font-bold mb-6">SAMNET Training Hub</h2>
@@ -216,11 +228,10 @@ export default function SAMNETPortal() {
             </div>
 
             <div className="mt-12 p-8 rounded-xl bg-gradient-to-r from-blue-900/30 to-cyan-900/20 border border-blue-500/30 text-center">
-              <h3 className="text-2xl font-bold mb-4">Discount Programms Available</h3>
+              <h3 className="text-2xl font-bold mb-4">Scholarship Opportunities Available</h3>
               <p className="text-blue-100 mb-6">
-                We believe in exploaring potentials. Merit-based and need-based interests is 
-                considered and will be determined in our exhibtion classes. 
-                Individuals who are passionate about technology will be rewarded with discounts.
+                We believe in nurturing talent. Merit-based and need-based scholarships are available for deserving
+                students who are passionate about technology.
               </p>
               <div className="flex gap-4 justify-center flex-wrap">
                 <Button
@@ -249,8 +260,8 @@ export default function SAMNETPortal() {
       </section>
 
       {/* Why Choose Us */}
-      <section id="about" className="py-32 relative z-0">
-        <div className="container mx-auto px-4 relative z-10">
+      <section id="about" className="py-16 relative z-0">
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
           <SectionHeading title="Why Choose SAMNET?" subtitle="Setting new standards in tech innovation" />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
@@ -282,13 +293,13 @@ export default function SAMNETPortal() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-32 relative z-0">
+      <section id="contact" className="py-16 relative z-0">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
           <div className="absolute bottom-1/3 right-1/3 w-64 h-64 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
         </div>
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
           <SectionHeading title="Get In Touch" subtitle="Let's build the future together" />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start mt-16">
@@ -357,8 +368,8 @@ export default function SAMNETPortal() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-blue-800/50 py-12 relative z-0">
-        <div className="container mx-auto px-4">
+      <footer className="border-t border-blue-800/50 py-8 relative z-0">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div>
               <Link href="/" className="font-bold text-xl inline-flex items-center gap-2 mb-4">
@@ -417,8 +428,13 @@ export default function SAMNETPortal() {
       </footer>
 
       {/* Modals */}
-      <ServiceBookingModal isOpen={isServiceBookingOpen} onClose={() => setIsServiceBookingOpen(false)} />
-      <ScholarshipModal isOpen={isScholarshipOpen} onClose={() => setIsScholarshipOpen(false)} tab={scholarshipTab} />
+      <ServiceBookingModal
+        isOpen={isServiceBookingOpen}
+        onClose={() => setIsServiceBookingOpen(false)}
+      />
+      <ScholarshipModal
+        isOpen={isScholarshipOpen}
+        onClose={() => setIsScholarshipOpen(false)} tab={"details"}      />
     </div>
   )
 }
