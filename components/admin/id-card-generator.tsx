@@ -100,8 +100,6 @@ export function IdCardGenerator() {
       joiningDate: new Date().toISOString(),
       createdAt: now,
       updatedAt: now,
-      passportPhoto: undefined,
-      signature: undefined,
     }
 
     const updated = [...staffList, newStaff]
