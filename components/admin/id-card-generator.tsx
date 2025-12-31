@@ -10,12 +10,9 @@ import type { Staff } from "./staff-management"
 import { StaffIDCard } from "./staff-id-card"
 import { Award as IdCard } from "lucide-react" // Import the IdCard component
 
-type StaffWithPhotos = Omit<Staff, "joiningDate" | "createdAt" | "updatedAt"> & {
+interface StaffWithPhotos extends Staff {
   passportPhoto?: string
   signature?: string
-  joiningDate?: string
-  createdAt?: string
-  updatedAt?: string
 }
 
 export function IdCardGenerator() {
@@ -92,6 +89,7 @@ export function IdCardGenerator() {
       return
     }
 
+    const now = new Date().toISOString()
     const newStaff: StaffWithPhotos = {
       name: formData.name,
       id: formData.id,
@@ -99,11 +97,11 @@ export function IdCardGenerator() {
       designation: formData.designation || "Staff",
       email: formData.email || "",
       phone: formData.phone || "",
+      joiningDate: new Date().toISOString(),
+      createdAt: now,
+      updatedAt: now,
       passportPhoto: undefined,
       signature: undefined,
-      joiningDate: "",
-      createdAt: "",
-      updatedAt: ""
     }
 
     const updated = [...staffList, newStaff]
