@@ -23,7 +23,7 @@ export function CreativeHero() {
       canvas.width = rect.width * devicePixelRatio
       canvas.height = rect.height * devicePixelRatio
 
-      ctx.scale(devicePixelRatio, devicePixelRatio)
+      ctx!.scale(devicePixelRatio, devicePixelRatio)
     }
 
     setCanvasDimensions()
@@ -96,11 +96,11 @@ export function CreativeHero() {
       }
 
       draw() {
-        ctx.fillStyle = this.color
-        ctx.beginPath()
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
-        ctx.closePath()
-        ctx.fill()
+        ctx!.fillStyle = this.color
+        ctx!.beginPath()
+        ctx!.arc(this.x, this.y, this.size, 0, Math.PI * 2)
+        ctx!.closePath()
+        ctx!.fill()
       }
     }
 
@@ -110,6 +110,7 @@ export function CreativeHero() {
     const gridSize = 30
 
     function init() {
+      if (!canvas) return
       particlesArray.length = 0
 
       const canvasWidth = canvas.width / devicePixelRatio
@@ -131,7 +132,7 @@ export function CreativeHero() {
 
     // Animation loop
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx!.clearRect(0, 0, canvas.width, canvas.height)
 
       // Smooth mouse following
       mouseX += (targetX - mouseX) * 0.1
@@ -149,12 +150,12 @@ export function CreativeHero() {
           const distance = Math.sqrt(dx * dx + dy * dy)
 
           if (distance < 30) {
-            ctx.beginPath()
-            ctx.strokeStyle = `rgba(100, 200, 255, ${0.3 - distance / 150})`
-            ctx.lineWidth = 0.5
-            ctx.moveTo(particlesArray[i].x, particlesArray[i].y)
-            ctx.lineTo(particlesArray[j].x, particlesArray[j].y)
-            ctx.stroke()
+            ctx!.beginPath()
+            ctx!.strokeStyle = `rgba(100, 200, 255, ${0.3 - distance / 150})`
+            ctx!.lineWidth = 0.5
+            ctx!.moveTo(particlesArray[i].x, particlesArray[i].y)
+            ctx!.lineTo(particlesArray[j].x, particlesArray[j].y)
+            ctx!.stroke()
           }
         }
       }

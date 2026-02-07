@@ -368,11 +368,11 @@ export function ScholarshipModal({ isOpen, onClose, tab: initialTab }: Scholarsh
                     <div className="space-y-3">
                       <div className="flex justify-between text-blue-100">
                         <span>Application Fee:</span>
-                        <span className="font-semibold">₦500.00</span>
+                        <span className="font-semibold">₦5000.00</span>
                       </div>
                       <div className="border-t border-blue-500/30 pt-3 flex justify-between text-lg font-bold text-cyan-300">
                         <span>Total Amount:</span>
-                        <span>₦500.00</span>
+                        <span>₦5000.00</span>
                       </div>
                     </div>
                   </div>
@@ -436,7 +436,7 @@ export function ScholarshipModal({ isOpen, onClose, tab: initialTab }: Scholarsh
                       disabled={paymentProcessed}
                       className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-emerald-500 hover:to-green-500 border-0 text-white cursor-pointer disabled:opacity-70 transition-all"
                     >
-                      {paymentProcessed ? "Processing..." : "Complete Payment (₦500)"}
+                      {paymentProcessed ? "Processing..." : "Complete Payment (₦5000)"}
                     </Button>
                   </div>
                 </motion.div>

@@ -168,8 +168,11 @@ export default function SAMNETPortal() {
                 <span className="font-semibold text-cyan-300">Passion is enough — skills will be taught.</span>
               </p>
               <p className="text-lg text-blue-200">
-                We attract passionate students and introduce them to cutting-edge technology fields with scholarship
-                opportunities.
+                We attract passionate students and introduce them to cutting-edge technology fields with hands-on
+                training, mentorship, and real-world project experience. Our goal is to equip the next generation of tech
+                professionals with the skills and knowledge needed to excel in today's rapidly evolving digital landscape.
+                Join us to unlock your potential and explore exciting career.
+          
               </p>
             </div>
 
@@ -228,10 +231,10 @@ export default function SAMNETPortal() {
             </div>
 
             <div className="mt-12 p-8 rounded-xl bg-gradient-to-r from-blue-900/30 to-cyan-900/20 border border-blue-500/30 text-center">
-              <h3 className="text-2xl font-bold mb-4">Scholarship Opportunities Available</h3>
+              <h3 className="text-2xl font-bold mb-4">Discount Offers Available</h3>
               <p className="text-blue-100 mb-6">
-                We believe in nurturing talent. Merit-based and need-based scholarships are available for deserving
-                students who are passionate about technology.
+                We believe in nurturing talent. Merit-based and need-based discounts are available for deserving
+                candidates. Get affordable access to world-class training and unlock your potential. Here you pay less and learn more.
               </p>
               <div className="flex gap-4 justify-center flex-wrap">
                 <Button
@@ -274,7 +277,7 @@ export default function SAMNETPortal() {
             </GlassmorphicCard>
 
             <GlassmorphicCard>
-              <div className="text-4xl font-bold text-cyan-400 mb-4">500+</div>
+              <div className="text-4xl font-bold text-cyan-400 mb-4">10+</div>
               <h3 className="text-xl font-bold mb-3">Projects Completed</h3>
               <p className="text-blue-200">
                 From startups to enterprises, we've successfully delivered transformative tech solutions.
@@ -282,7 +285,7 @@ export default function SAMNETPortal() {
             </GlassmorphicCard>
 
             <GlassmorphicCard>
-              <div className="text-4xl font-bold text-cyan-400 mb-4">1000+</div>
+              <div className="text-4xl font-bold text-cyan-400 mb-4">10+</div>
               <h3 className="text-xl font-bold mb-3">Trained Professionals</h3>
               <p className="text-blue-200">
                 Passionate individuals transformed into skilled tech professionals through our training programs.
@@ -321,7 +324,7 @@ export default function SAMNETPortal() {
                   </div>
                   <div>
                     <div className="text-sm text-blue-300">Phone</div>
-                    <div className="font-medium">+1 (555) 123-4567</div>
+                    <div className="font-medium">+234 (90) 27349707</div>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -330,7 +333,7 @@ export default function SAMNETPortal() {
                   </div>
                   <div>
                     <div className="text-sm text-blue-300">Business Hours</div>
-                    <div className="font-medium">Mon - Fri, 9:00 AM - 6:00 PM</div>
+                    <div className="font-medium">Mon - Fri, 8:00 AM - 5:00 PM</div>
                   </div>
                 </div>
               </div>
@@ -338,7 +341,7 @@ export default function SAMNETPortal() {
               <div className="mt-8 pt-8 border-t border-blue-700/50">
                 <h4 className="text-lg font-medium mb-4">Follow Us</h4>
                 <div className="flex gap-4">
-                  <Link href="#" target="_blank" rel="noopener noreferrer">
+                  <Link href="https://www.linkedin.com/company/samnet-industrials/" target="_blank" rel="noopener noreferrer">
                     <Button
                       variant="ghost"
                       size="icon"
@@ -348,7 +351,7 @@ export default function SAMNETPortal() {
                       <span className="sr-only">LinkedIn</span>
                     </Button>
                   </Link>
-                  <Link href="#" target="_blank" rel="noopener noreferrer">
+                  <Link href="https://github.com/SAMNETindustrials" target="_blank" rel="noopener noreferrer">
                     <Button
                       variant="ghost"
                       size="icon"
@@ -401,8 +404,13 @@ export default function SAMNETPortal() {
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-cyan-300 mb-4">Company</h4>
+              <h4 className="font-semibold text-cyan-300 mb-4">Resources</h4>
               <ul className="space-y-2 text-sm text-blue-300">
+                <li>
+                  <Link href="/huml" className="hover:text-cyan-400 transition-colors">
+                    HuML Training
+                  </Link>
+                </li>
                 <li>
                   <Link href="#about" className="hover:text-cyan-400 transition-colors">
                     About Us
@@ -413,28 +421,26 @@ export default function SAMNETPortal() {
                     Contact
                   </Link>
                 </li>
-                <li>
-                  <Link href="#" className="hover:text-cyan-400 transition-colors">
-                    Privacy Policy
-                  </Link>
-                </li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-blue-800/50 pt-8 text-center text-sm text-blue-400">
-            <p>Building the future of technology, one innovation at a time.</p>
+          <div className="border-t border-blue-700/50 pt-8">
+            <p className="text-sm text-center text-blue-400">
+              Built with innovation for a better tomorrow
+            </p>
           </div>
         </div>
       </footer>
 
       {/* Modals */}
-      <ServiceBookingModal
-        isOpen={isServiceBookingOpen}
-        onClose={() => setIsServiceBookingOpen(false)}
-      />
-      <ScholarshipModal
-        isOpen={isScholarshipOpen}
-        onClose={() => setIsScholarshipOpen(false)} tab={"details"}      />
+      {isServiceBookingOpen && <ServiceBookingModal isOpen={isServiceBookingOpen} onClose={() => setIsServiceBookingOpen(false)} />}
+      {isScholarshipOpen && (
+        <ScholarshipModal
+          isOpen={isScholarshipOpen}
+          onClose={() => setIsScholarshipOpen(false)}
+          tab={scholarshipTab}
+        />
+      )}
     </div>
   )
 }

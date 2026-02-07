@@ -29,6 +29,7 @@ export function FloatingNav() {
   const navItems = [
     { name: "Services", href: "#services" },
     { name: "Training", href: "#training" },
+    { name: "HuML", href: "/huml" },
     { name: "About", href: "#about" },
     { name: "Contact", href: "#contact" },
   ]

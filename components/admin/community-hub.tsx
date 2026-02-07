@@ -38,7 +38,7 @@ export function CommunityHub({ userRole }: { userRole: string }) {
           category: "announcement",
           avatar: "A",
         },
-        {
+        { 
           id: "2",
           author: "Team Lead",
           authorRole: "staff",

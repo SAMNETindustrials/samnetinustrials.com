@@ -16,18 +16,18 @@ interface Project {
 const projects: Project[] = [
   {
     id: "1",
-    title: "Smart Home Integration Platform",
+    title: "Human Machine Learning (HuML)",
     description: "Complete IoT ecosystem for residential and commercial automation with real-time monitoring.",
     category: "IoT Solutions",
-    image: "/smart-home-iot.jpg",
+    image: "/HuML_schema.png",
     technologies: ["IoT", "Cloud", "Mobile App"],
   },
   {
     id: "2",
-    title: "E-Commerce Platform Development",
+    title: "Campuz Mall Hygiene Services",
     description: "Full-stack web application with advanced inventory management and payment integration.",
     category: "Software Development",
-    image: "/ecommerce-platform.jpg",
+    image: "/CMG_hygiene.png",
     technologies: ["React", "Node.js", "PostgreSQL"],
   },
   {
